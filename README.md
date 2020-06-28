@@ -22,9 +22,15 @@ As tags `v1.x.x` são das aulas do primeiro semestre e as `v2.x.x` são do segun
 
 ## Cabeamento
 
-![wiring](wiring.png)
+![wiring](img/wiring.png)
 
 Link com exemplo no [tinkercad]().
+
+## Dependencias
+
+Instale a lib do DHT e todas as dependecias que ele pedir para instalar junto, a lib correta esta no print a seguir:
+
+![dht_lib](img/dht_lib.png)
 
 ## Integração
 
