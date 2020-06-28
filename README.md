@@ -32,7 +32,8 @@ Instale a lib do DHT e todas as dependecias que ele pedir para instalar junto, a
 
 ![dht_lib](img/dht_lib.png)
 
+As versoes da familia v2.x.x dependem tambem da lib `ArduinoJson`.
+
 ## Integração
 
-Para a integração do segundo semestre trocaremos o microcontrolador por um esp8266, o que mudará os pinos.
-E também usaremos um raspberry para receber dados de algumas maneiras diferentes durante as aulas, porém isso pode ser feito no seu computador caso não tenha um raspberry.
+Usaremos um raspberry para receber dados de algumas maneiras diferentes durante as aulas, porém isso pode ser feito no seu computador caso não tenha um raspberry.

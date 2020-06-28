@@ -1,4 +1,5 @@
 #include "DHT.h"
+#include <ArduinoJson.h>
 
 #define LED_GREEN 12
 #define LED_RED 13
@@ -44,21 +45,15 @@ boolean too_much_sun() {
   return soil_humidity > 800 && luminosidade < 500;
 }
 
-void send_metrics() {
-  Serial.println("{");
-  Serial.print("Umidade do solo: ");
-  Serial.println(soil_humidity);
+void build_metrics() {
+  StaticJsonDocument<200> doc;
 
-  Serial.print("Umidade do ar: ");
-  Serial.print(air_humidity);
-  Serial.println("%");
+  doc["soil_humidity"] = soil_humidity;
+  doc["air_humidity"] = float(air_humidity);
+  doc["air_temp"] = float(air_temp);
+  doc["light"] = luminosidade;
 
-  Serial.print("Temperatura: ");
-  Serial.println(air_temp);
-
-  Serial.print("Luminosidade: ");
-  Serial.println(luminosidade);
-  Serial.println("=====================================\n\n");
+  serializeJson(doc, Serial);
 }
 
 void setup() {
@@ -88,6 +83,6 @@ void loop() {
     digitalWrite(RELE_PIN, LOW);
   }
 
-  send_metrics();
+  build_metrics();
   delay(2000);
 }
