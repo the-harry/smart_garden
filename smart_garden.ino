@@ -6,39 +6,36 @@
 #define LDR A2
 #define DHTPIN A3
 #define DHTTYPE DHT11
+#define BUTTON 8
 
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
+  pinMode(BUTTON, INPUT);
   Serial.begin(9600);
   dht.begin();
 }
 
 void loop() {
-  // mede umidade do solo
   int soil_humidity = analogRead(HIGROMETRO);
   delay(10);
 
-  // mede luminosidade
   int luminosidade = analogRead(LDR);
   delay(10);
 
-  // mede umidade do ar
   float air_humidity = dht.readHumidity();
   if (isnan(air_humidity)) {
     Serial.println("Erro ao ler DHT.");
   }
   delay(10);
 
-  // mede temperatura
   float temp = dht.readTemperature();
   if (isnan(temp)) {
     Serial.println("Erro ao ler DHT.");
   }
   delay(10);
 
-  // verifica se pode irrigar ou nao
-  if (soil_humidity > 800 && luminosidade > 500) {
+  if ((soil_humidity > 800 && luminosidade > 500) || digitalRead(BUTTON) == HIGH) {
     digitalWrite(LED_GREEN, HIGH);
     digitalWrite(LED_RED, LOW);
     Serial.println(" Irrigando horta");
@@ -48,7 +45,6 @@ void loop() {
     Serial.println("Solo seco, porem muito sol, abortando irrigacao.");
   }
 
-  // imprime valores das medicoes
   Serial.print("Umidade do solo: ");
   Serial.println(soil_humidity);
 
