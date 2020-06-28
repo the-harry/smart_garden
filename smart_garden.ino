@@ -14,7 +14,7 @@ DHT dht(DHTPIN, DHTTYPE);
 int soil_humidity = 0;
 int luminosidade = 0;
 float air_humidity = 0;
-float temp = 0;
+float air_temp = 0;
 
 void update_metrics() {
   soil_humidity = analogRead(HIGROMETRO);
@@ -25,13 +25,13 @@ void update_metrics() {
 
   air_humidity = dht.readHumidity();
   if (isnan(air_humidity)) {
-    Serial.println("Erro ao ler DHT.");
+    Serial.println("dht_error");
   }
   delay(10);
 
-  temp = dht.readTemperature();
-  if (isnan(temp)) {
-    Serial.println("Erro ao ler DHT.");
+  air_temp = dht.readTemperature();
+  if (isnan(air_temp)) {
+    Serial.println("dht_error");
   }
   delay(10);
 }
@@ -44,8 +44,8 @@ boolean too_much_sun() {
   return soil_humidity > 800 && luminosidade < 500;
 }
 
-void print_metrics() {
-  Serial.println("=====================================\n\n");
+void send_metrics() {
+  Serial.println("{");
   Serial.print("Umidade do solo: ");
   Serial.println(soil_humidity);
 
@@ -54,7 +54,7 @@ void print_metrics() {
   Serial.println("%");
 
   Serial.print("Temperatura: ");
-  Serial.println(temp);
+  Serial.println(air_temp);
 
   Serial.print("Luminosidade: ");
   Serial.println(luminosidade);
@@ -88,6 +88,6 @@ void loop() {
     digitalWrite(RELE_PIN, LOW);
   }
 
-  print_metrics();
+  send_metrics();
   delay(2000);
 }
